@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>{{ msg }}</p>
+    {% for chat_history in chat_history %}
+        <p><strong>LLM Output:</strong> {{ chat_history.llm_output}}</p>
+        <br>
+        <p><strong>User Input:</strong> {{ chat_history.user_input }}</p>
+    {% endfor %}
+    <form method="post" enctype="multipart/form-data" action="">
+        {% csrf_token %}
+        <input type="file" name="pdf_document">
+        <button type="submit">Upload</button>
+    </form>
+    <form method ="post" action="./chat">
+        {% csrf_token %}
+        <label for="user_input">Enter your query:</label>
+        <input type="text" name="user_input" id="user_input" placeholder="Type your query here" size="50" required>
+        <button type="submit" name="action" value="submit_text">Submit Query</button>
+    </form>
+</body>
+</html>
