@@ -1,39 +1,38 @@
-from django.shortcuts import render
-from django.http import HttpResponse
 from .rag_pipeline import Chatbot
 from io import BytesIO
 from .models import ChatHistory
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 summarizer = Chatbot()
-# def hello (request):
+# def posttempl(request):
 #     return render(request, "AI_summarizer/index.html")
+# def posttempl2(request):
+#     return render(request, "AI_summarizer/ai.html")
 
-def index (request): 
+def postPDF (request): 
+
     try: 
-        if request.method == "POST":
-            if "pdf_document" not in request.FILES:
-                return HttpResponse("No file uploaded.")
-            elif request.FILES["pdf_document"].name.split('.')[-1] != "pdf":
-                return HttpResponse("File is not a PDF.")
-            else:
-                uploaded_file = request.FILES["pdf_document"] #Accesses the uploaded file from the form in index.html.
-                pdf_file = BytesIO(uploaded_file.read()) #Reads the file and stores it in a BytesIO object.
+        uploaded_file = request.FILES.get('pdf_document')
+        pdf_file = BytesIO(uploaded_file.read()) 
 
-                pdf_text = summarizer.pdf_to_text(pdf_file) #Converts the pdf file to text.
-                chunks = summarizer.chunk_splitter(pdf_text) #Splits the text into chunks.
-                summarizer.vectorInit(chunks)
-                return render(request, "AI_summarizer/index.html", {"msg": "File uploaded successfully."})
-        elif request.method == "GET":
-            return render(request, "AI_summarizer/index.html")
+        pdf_text = summarizer.pdf_to_text(pdf_file) 
+        chunks = summarizer.chunk_splitter(pdf_text) 
+        summarizer.vectorInit(chunks)
+        
+        return JsonResponse({"message": "PDF processed successfully", "status": 200})
     except Exception as e:
-        return HttpResponse(f"Error: {e}")
+        return JsonResponse({"message": str(e), "status": 500})
 
+@csrf_exempt
 def chat(request):
+    body = json.loads(request.body)
     try:
-        res = summarizer(request.POST["user_input"])
-        ChatHistory.objects.create(user_input=request.POST["user_input"], llm_output=res)
+        res = summarizer(body["user_input"])
+        ChatHistory.objects.create(user_input=body["user_input"], llm_output=res)
         chat_history = ChatHistory.objects.all()
-        return render(request, "AI_summarizer/index.html", {"chat_history": chat_history})
+        return JsonResponse({"response": res})
     except Exception as e:
-        return HttpResponse(f"Error: {e}")
+        return JsonResponse({"message": str(e), "status": 500})
 

@@ -3,25 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Summarizer</title>
 </head>
 <body>
     <p>{{ msg }}</p>
     {% for chat_history in chat_history %}
-        <p><strong>LLM Output:</strong> {{ chat_history.llm_output}}</p>
+        <p><strong>LLM Output:</strong> {{ chat_history.llm_output }}</p>
         <br>
         <p><strong>User Input:</strong> {{ chat_history.user_input }}</p>
     {% endfor %}
-    <form method="post" enctype="multipart/form-data" action="">
+    
+    <!-- Form for uploading a PDF -->
+    <form id="uploadPDFForm">
         {% csrf_token %}
-        <input type="file" name="pdf_document">
-        <button type="submit">Upload</button>
+        <input type="file" name="pdf_document" id="pdf_document" required>
+        <button type="button" onclick="uploadPDF()">Upload</button>
     </form>
-    <form method ="post" action="./chat">
-        {% csrf_token %}
-        <label for="user_input">Enter your query:</label>
-        <input type="text" name="user_input" id="user_input" placeholder="Type your query here" size="50" required>
-        <button type="submit" name="action" value="submit_text">Submit Query</button>
-    </form>
+
+    <p id="responseMessage"></p>
+
+    <script>
+        async function uploadPDF() {
+            const form = document.getElementById('uploadPDFForm');
+            const pdf = document.getElementById('pdf_document');
+            const file = pdf.files[0];  // Get the selected file
+            const formData = new FormData(form);
+            formData.append('pdf_document', file);
+            
+            
+            // Check if the token is retrieved correctly
+            try {
+                const response = await fetch('http://127.0.0.1:8000/AI_summarizer/', {
+                    method: 'POST',
+                    body: formData  // Let the browser set Content-Type
+                });
+                console.log(response)
+                const result = await response.json();  // Assuming backend returns JSON
+                console.log(result) // Log the result for debugging
+                const responseMessage = document.getElementById('responseMessage');
+                if (response.ok) {
+                    responseMessage.style.color = 'green';
+                    responseMessage.textContent = result.message || 'File uploaded successfully!';
+                    // window.location.href = '/AI_summarizer/get2/'
+                } else {
+                    responseMessage.style.color = 'red';
+                    responseMessage.textContent = result.message || `Error: ${response.statusText}`;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('responseMessage').textContent = 'Network error. Check console.';
+            }
+        }
+    </script>
 </body>
 </html>

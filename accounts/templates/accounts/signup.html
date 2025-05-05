@@ -7,27 +7,59 @@
 </head>
 <body>
     <h2>Sign Up</h2>
-    {% if error %}
-        <p style="color: red;">{{ error }}</p>
-    {% endif %}
-    {% if success %}
-        <p style="color: green;">{{ success }}</p>
-    {% endif %}
-    <form method="post" action="">
-        {% csrf_token %}
+    <p id="responseMessage"></p>
+    <form id="signupForm">
         <label for="username">Username:</label><br>
         <input type="text" id="username" name="username" required><br><br>
 
         <label for="email">Email:</label><br>
         <input type="email" id="email" name="email" required><br><br>
 
-        <label for="password1">Password:</label><br>
-        <input type="password" id="password1" name="password1" required><br><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
 
-        <label for="password2">Confirm Password:</label><br>
-        <input type="password" id="password2" name="password2" required><br><br>
-
-        <button type="submit">Sign Up</button>
+        <button type="button" onclick="signup()">Sign Up</button>
     </form>
+
+    <script>
+        async function signup() {
+            const form = document.getElementById('signupForm');
+            const formData = new FormData(form);
+
+            // Convert form data to JSON
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/accounts/signup/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}' // Include CSRF token
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                // Display the response message
+                const responseMessage = document.getElementById('responseMessage');
+                if (response.ok) {
+                    responseMessage.style.color = 'green';
+                    responseMessage.textContent = 'Sign up successful!';
+                } else {
+                    responseMessage.style.color = 'red';
+                    responseMessage.textContent = result.message || 'Sign up failed.';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                const responseMessage = document.getElementById('responseMessage');
+                responseMessage.style.color = 'red';
+                responseMessage.textContent = 'An error occurred during sign up.';
+            }
+        }
+    </script>
 </body>
 </html>

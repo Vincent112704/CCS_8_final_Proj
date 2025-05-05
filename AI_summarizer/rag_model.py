@@ -31,9 +31,9 @@ class RAGModel:
     def rag_chain(self):
         prompt_template = PromptTemplate(
             template='''
-            Given the following {context} answer the question
+            Given the following {context} answer the question: {question}.
             ''',
-            input_variables=["context"]
+            input_variables=["context", "question"],
         )
         llm_chain = LLMChain(llm=self.llm, prompt=prompt_template)
 

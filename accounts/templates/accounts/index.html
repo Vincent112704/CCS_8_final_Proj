@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Account</title>
+</head>
+<body>
+    <h2>Manage Account</h2>
+    <form id="manageAccountForm">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" placeholder="Enter new username"><br><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" placeholder="Enter new email"><br><br>
+
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" placeholder="Enter new password"><br><br>
+
+        <label for="phone">Phone:</label><br>
+        <input type="text" id="phone" name="phone" placeholder="Enter new phone number"><br><br>
+
+        <label for="school">School:</label><br>
+        <input type="text" id="school" name="school" placeholder="Enter new school"><br><br>
+
+        <label for="address">Address:</label><br>
+        <input type="text" id="address" name="address" placeholder="Enter new address"><br><br>
+
+        <button type="button" onclick="updateAccount()">Update Account</button>
+    </form>
+
+    <p id="responseMessage"></p>
+
+    <script>
+        async function updateAccount() {
+            const form = document.getElementById('manageAccountForm');
+            const formData = new FormData(form);
+
+            // Convert form data to JSON
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+            console.log(data); // Check the data being sent
+            // Retrieve the access token from localStorage
+            const token = localStorage.getItem('access');
+            console.log(typeof(token)); // Check if the token is retrieved correctly
+            if (!token) {
+                alert('You are not logged in. Please log in first.');
+                return;
+            }
+
+            try {
+
+                const response = await fetch('http://127.0.0.1:8000/accounts/manage/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,  // 👈 Add this line
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                // Display the response message
+                const responseMessage = document.getElementById('responseMessage');
+                if (response.ok) {
+                    responseMessage.style.color = 'green';
+                    responseMessage.textContent = result.message;
+                } else {
+                    responseMessage.style.color = 'red';
+                    responseMessage.textContent = result.message || 'An error occurred.';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                const responseMessage = document.getElementById('responseMessage');
+                responseMessage.style.color = 'red';
+                responseMessage.textContent = 'An error occurred while updating the account.';
+            }
+        }
+
+        // Example: Save the token after login
+        function saveToken(token) {
+            localStorage.setItem('access_token', token);
+        }
+    </script>
+</body>
+</html>

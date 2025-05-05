@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Account</title>
+</head>
+<body>
+    <h2>Delete Account</h2>
+    <p id="responseMessage"></p>
+    <form id="deleteAccountForm">
+        <label for="password">Enter your password to confirm:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+
+        <button type="button" onclick="deleteAccount()">Delete Account</button>
+    </form>
+
+    <script>
+        async function deleteAccount() {
+            const form = document.getElementById('deleteAccountForm');
+            const formData = new FormData(form);
+
+            // Convert form data to JSON
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
+            // Retrieve the access token from localStorage
+            const token = localStorage.getItem('access');
+            if (!token) {
+                alert('You are not logged in. Please log in first.');
+                return;
+            }
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/accounts/delete/', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}` // Include the access token
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                // Display the response message
+                const responseMessage = document.getElementById('responseMessage');
+                if (response.ok) {
+                    responseMessage.style.color = 'green';
+                    responseMessage.textContent = result.message;
+
+                    // Optionally, clear tokens and redirect to login
+                    localStorage.removeItem('access');
+                    localStorage.removeItem('refresh');
+                    setTimeout(() => {
+                        window.location.href = '/accounts/LoginInTemp/';
+                    }, 2000);
+                } else {
+                    responseMessage.style.color = 'red';
+                    responseMessage.textContent = result.message || 'Failed to delete account.';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                const responseMessage = document.getElementById('responseMessage');
+                responseMessage.style.color = 'red';
+                responseMessage.textContent = 'An error occurred while deleting the account.';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #chatContainer {
+            max-width: 600px;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        #chatBox {
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #fff;
+        }
+        .message {
+            margin: 5px 0;
+        }
+        .user {
+            text-align: right;
+            color: blue;
+        }
+        .ai {
+            text-align: left;
+            color: green;
+        }
+        #userInput {
+            width: calc(100% - 100px);
+            padding: 10px;
+            margin-right: 10px;
+        }
+        #sendButton {
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="chatContainer">
+        <h2>AI Chat</h2>
+        <div id="chatBox"></div>
+        <input type="text" id="userInput" placeholder="Type your message here..." />
+        <button id="sendButton" onclick="sendMessage()">Send</button>
+    </div>
+
+    <script>
+        async function sendMessage() {
+            const userInput = document.getElementById('userInput');
+            const chatBox = document.getElementById('chatBox');
+            const message = userInput.value.trim();
+            console.log(message)
+
+            // Display the user's message in the chat box
+            const userMessage = document.createElement('div');
+            userMessage.className = 'message user';
+            userMessage.textContent = message;
+            chatBox.appendChild(userMessage);
+
+            // Clear the input field
+            userInput.value = '';
+
+            try {
+                // Send the message to the backend
+                const response = await fetch('http://127.0.0.1:8000/AI_summarizer/chat/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ user_input: message })
+                });
+
+                const result = await response.json();
+                console.log(result) // Log the result for debugging
+                
+                console.log(response) // Log the response for debugging;
+                console.log(result) // Log the result for debugging
+            
+                const aiMessage = document.createElement('div');
+                aiMessage.className = 'message ai';
+                aiMessage.textContent = result.response || 'No response from AI.';
+                chatBox.appendChild(aiMessage);
+
+                // Scroll to the bottom of the chat box
+                chatBox.scrollTop = chatBox.scrollHeight;
+            } catch (error) {
+                console.error('Error:', error);
+                const errorMessage = document.createElement('div');
+                errorMessage.className = 'message ai';
+                errorMessage.textContent = 'An error occurred while communicating with the AI.';
+                chatBox.appendChild(errorMessage);
+            }
+        }
+    </script>
+</body>
+</html>

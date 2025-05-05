@@ -38,8 +38,8 @@ class Chatbot:
             raise ValueError("Input text is empty. Cannot split into chunks.")
 
         text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=100,
-            chunk_overlap=50
+            chunk_size=200,
+            chunk_overlap=100
         )
         output = text_splitter.split_text(text)
 
@@ -69,7 +69,7 @@ class Chatbot:
         try:
             retrieved_docs = self.retriever.get_relevant_documents(query)
             rag_chain = self.rag_model.rag_chain()
-            response = rag_chain.invoke({"input_documents": retrieved_docs})
+            response = rag_chain.invoke({"input_documents": retrieved_docs, "question": query})
             return response['output_text']
         except Exception as e:
             raise ValueError(f"Error processing query: {e}")

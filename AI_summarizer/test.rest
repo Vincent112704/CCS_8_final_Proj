@@ -1,0 +1,15 @@
+POST http://127.0.0.1:8000/accounts/login/
+Content-Type: application/json
+
+{
+    "username": "daasd",
+    "password": "dqwdqwwe"
+}
+
+
+token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ2MzgyMzQxLCJpYXQiOjE3NDYzODE0NDEsImp0aSI6ImYwYjY0YjM5NGY1YTQ3OWRhOGI3Yzg2ZDk2NjMwNThmIiwidXNlcl9pZCI6MTF9.CE753y1KekxbC0GsExVcMjKwapvGzWNVe7DrI8OTntE"
+
+POST http://http://127.0.0.1:8000/AI_summarizer/
+{
+    "Authorization" : "Bearer " + token,
+}
