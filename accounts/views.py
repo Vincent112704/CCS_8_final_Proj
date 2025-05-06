@@ -69,7 +69,8 @@ def manageAccount(request):
 
     except Exception as e:
         return JsonResponse({"message": str(e), "status": 500})
-
+    
+@csrf_exempt
 def signup(request):
     body = json.loads(request.body)
     try:
