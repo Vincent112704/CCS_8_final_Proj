@@ -1,15 +1,47 @@
-POST http://127.0.0.1:8000/accounts/login/
+# POST http://127.0.0.1:8000/accounts/login/
+# Content-Type: application/json
+
+# {
+#     "username": "chan",
+#     "password": "12321354"
+# }
+
+ 
+
+# POST http://127.0.0.1:8000/notebook/post/
+# Content-Type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ2OTY2OTE1LCJpYXQiOjE3NDY5NjMzMTUsImp0aSI6IjEyNWNmZWIwZmMxNjRlMzk5MTJhOTg2ZDA0MzBjYzZlIiwidXNlcl9pZCI6MTN9.avrT2IZ4Js1PUrYpFbl-9If2Ss8CusWknM5c28WoFbs
+
+# {
+#     "title": "Science Notebook",
+#     "pages": [
+#         {
+#             "title": "Atoms and Molecules",
+#             "blocks": [
+#                 { "content": "fsfsdf" },
+#                 { "content": " i wam you" }
+#             ]
+#         },
+#         {
+#             "title": "",
+#             "blocks": [
+#                 { "content": "Hello world" }
+#             ]
+#         }
+#     ]
+# }
+
+DELETE http://127.0.0.1:8000/notebook/delete/
 Content-Type: application/json
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ2OTY2OTE1LCJpYXQiOjE3NDY5NjMzMTUsImp0aSI6IjEyNWNmZWIwZmMxNjRlMzk5MTJhOTg2ZDA0MzBjYzZlIiwidXNlcl9pZCI6MTN9.avrT2IZ4Js1PUrYpFbl-9If2Ss8CusWknM5c28WoFbs
 {
-    "username": "daasd",
-    "password": "dqwdqwwe"
+    "notebook_ID": 11
 }
 
+# POST http://127.0.0.1:8000/accounts/delete/
+# Content-Type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ2OTY1NDk5LCJpYXQiOjE3NDY5NjE4OTksImp0aSI6IjdlMWE1N2E2Y2E1ZDQwM2E4OGM3YjU2ZTFkODAwMzYzIiwidXNlcl9pZCI6MTR9.VuRaN8Sse01rZ8QTTxMofdiLLpIcEDLlX7Rg-9e-KeY
 
-token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ2MzgyMzQxLCJpYXQiOjE3NDYzODE0NDEsImp0aSI6ImYwYjY0YjM5NGY1YTQ3OWRhOGI3Yzg2ZDk2NjMwNThmIiwidXNlcl9pZCI6MTF9.CE753y1KekxbC0GsExVcMjKwapvGzWNVe7DrI8OTntE"
-
-POST http://http://127.0.0.1:8000/AI_summarizer/
-{
-    "Authorization" : "Bearer " + token,
-}
+# {
+#     "password": "vincent123"
+# }
