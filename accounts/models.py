@@ -6,6 +6,7 @@ class users(models.Model):
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=15, unique=True)
     school = models.CharField(max_length=20)
-    address = models.CharField(max_length=100, default="")
+    address = models.CharField(max_length=100)
+    displayName = models.CharField(max_length=20, default="User")
 
     

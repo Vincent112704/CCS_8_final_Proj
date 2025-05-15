@@ -34,6 +34,7 @@
 DELETE http://127.0.0.1:8000/notebook/delete/
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ2OTY2OTE1LCJpYXQiOjE3NDY5NjMzMTUsImp0aSI6IjEyNWNmZWIwZmMxNjRlMzk5MTJhOTg2ZDA0MzBjYzZlIiwidXNlcl9pZCI6MTN9.avrT2IZ4Js1PUrYpFbl-9If2Ss8CusWknM5c28WoFbs
+
 {
     "notebook_ID": 11
 }

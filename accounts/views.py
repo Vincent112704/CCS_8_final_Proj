@@ -1,8 +1,7 @@
-from django.shortcuts import render
 from django.http import JsonResponse
 from .models import users
 from rest_framework_simplejwt.tokens import RefreshToken , AccessToken
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -42,8 +41,8 @@ def manageAccount(request):
         user_id = access_token['user_id']
         user = users.objects.get(id=user_id)
         
-        if body["username"]:
-            user.username = body["username"]
+        if body["displayName"]:
+            user.displayName = body["displayName"]
         if body["email"]:
             user.email = body["email"]
         if body["phone"]:
@@ -59,7 +58,7 @@ def manageAccount(request):
 
         return JsonResponse({"message": "User updated successfully!",
                              "user": {
-                                 "username": user.username,
+                                 "displayName": user.displayName,
                                  "email": user.email,
                                  "phone": user.phone,
                                  "school": user.school,
