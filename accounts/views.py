@@ -86,7 +86,6 @@ def signup(request):
             username=body["username"],
             password=body["password"],
             email=body["email"],        
-            displayName=body["displayName"]
         )
 
         new_user.save()
