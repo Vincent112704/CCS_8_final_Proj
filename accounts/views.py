@@ -59,6 +59,7 @@ def manageAccount(request):
         return JsonResponse({"message": "User updated successfully!",
                              "user": {
                                  "displayName": user.displayName,
+                                 "username": user.username,
                                  "email": user.email,
                                  "phone": user.phone,
                                  "school": user.school,
@@ -85,6 +86,7 @@ def signup(request):
             username=body["username"],
             password=body["password"],
             email=body["email"],        
+            displayName=body["displayName"]
         )
 
         new_user.save()
