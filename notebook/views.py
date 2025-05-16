@@ -93,3 +93,33 @@ def deleteNotebook(request):
     except Exception as e:
         return JsonResponse({"message": str(e), "status": 500})
 
+@csrf_exempt
+@permission_classes([IsAuthenticated])
+def getOneNB(request):
+    body = json.loads(request.body)
+    token = request.headers.get('Authorization').split(' ')[1]
+    access_token = AccessToken(token)
+    user_id = access_token['user_id']
+    
+    try:
+        user = users.objects.get(id=user_id)
+        notebook = Notes.objects.get(id=body["notebook_ID"], user=user)
+        pages = Pages.objects.filter(noteBook=notebook)
+        blocks = Block.objects.all()
+        
+        notebook_data = {
+            "notebook ID": notebook.id,
+            "title": notebook.title,
+            "pages": [{
+                "page ID": page.id,
+                "title": page.title,
+                "blocks": [{
+                    "block ID": block.id,
+                    "content": block.content
+                } for block in blocks if block.page == page]
+            } for page in pages]
+        }
+        
+        return JsonResponse({"notebook": notebook_data, "status": 200})
+    except Exception as e:
+        return JsonResponse({"message": str(e), "status": 500})

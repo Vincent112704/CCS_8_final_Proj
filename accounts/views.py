@@ -41,8 +41,8 @@ def manageAccount(request):
         user_id = access_token['user_id']
         user = users.objects.get(id=user_id)
         
-        if body["displayName"]:
-            user.displayName = body["displayName"]
+        if body["username"]:
+            user.username = body["username"]
         if body["email"]:
             user.email = body["email"]
         if body["phone"]:
@@ -51,14 +51,12 @@ def manageAccount(request):
             user.school = body["school"]
         if body["address"]:
             user.address = body["address"]
-        if body["password"]:
-            user.password = body["password"]
+        
         
         user.save()
 
         return JsonResponse({"message": "User updated successfully!",
                              "user": {
-                                 "displayName": user.displayName,
                                  "username": user.username,
                                  "email": user.email,
                                  "phone": user.phone,

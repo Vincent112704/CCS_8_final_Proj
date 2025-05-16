@@ -1,16 +1,28 @@
-# POST http://127.0.0.1:8000/accounts/login/
+# POST https://ccs8finalproj-production.up.railway.app/accounts/login/
 # Content-Type: application/json
 
 # {
-#     "username": "chan",
-#     "password": "12321354"
+#     "username": "chan22",
+#     "password": "123213fdsf54"
 # }
 
+
+POST http://127.0.0.1:8000/accounts/manage/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ3NDEzNTMxLCJpYXQiOjE3NDc0MDk5MzEsImp0aSI6IjgzZTdlOTU1M2Y5NjRmY2Q4NTA3MTAwMjhiNTk1MDM0IiwidXNlcl9pZCI6MTl9.o_3DRi8sdRLtXKySRC4VryfOB5BxJVscyI9oRdJbZT8
+
+{
+    "username": "Tian2x", 
+    "email": "hello111@yahoo.com", 
+    "phone": "12345678",
+    "school": "NUS",
+    "address": "Philippines",
+}
  
 
-# POST http://127.0.0.1:8000/notebook/post/
+# POST https://ccs8finalproj-production.up.railway.app/notebook/post/
 # Content-Type: application/json
-# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ2OTY2OTE1LCJpYXQiOjE3NDY5NjMzMTUsImp0aSI6IjEyNWNmZWIwZmMxNjRlMzk5MTJhOTg2ZDA0MzBjYzZlIiwidXNlcl9pZCI6MTN9.avrT2IZ4Js1PUrYpFbl-9If2Ss8CusWknM5c28WoFbs
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ3Mjg5ODE2LCJpYXQiOjE3NDcyODYyMTYsImp0aSI6ImQ2MTIwNTgyNDNjMDQ4MTE5NzU3YzZiOWUzYTNhZGQzIiwidXNlcl9pZCI6MTN9.ExNKd526Ozit0MyZFecF9lgNgsVZTLlHFQdEjk-GsTI
 
 # {
 #     "title": "Science Notebook",
@@ -23,7 +35,7 @@
 #             ]
 #         },
 #         {
-#             "title": "",
+#             "title": "Hello",
 #             "blocks": [
 #                 { "content": "Hello world" }
 #             ]
@@ -31,13 +43,13 @@
 #     ]
 # }
 
-DELETE http://127.0.0.1:8000/notebook/delete/
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ2OTY2OTE1LCJpYXQiOjE3NDY5NjMzMTUsImp0aSI6IjEyNWNmZWIwZmMxNjRlMzk5MTJhOTg2ZDA0MzBjYzZlIiwidXNlcl9pZCI6MTN9.avrT2IZ4Js1PUrYpFbl-9If2Ss8CusWknM5c28WoFbs
+# DELETE http://127.0.0.1:8000/notebook/delete/
+# Content-Type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ2OTY2OTE1LCJpYXQiOjE3NDY5NjMzMTUsImp0aSI6IjEyNWNmZWIwZmMxNjRlMzk5MTJhOTg2ZDA0MzBjYzZlIiwidXNlcl9pZCI6MTN9.avrT2IZ4Js1PUrYpFbl-9If2Ss8CusWknM5c28WoFbs
 
-{
-    "notebook_ID": 11
-}
+# {
+#     "notebook_ID": 11
+# }
 
 # POST http://127.0.0.1:8000/accounts/delete/
 # Content-Type: application/json
@@ -46,3 +58,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 # {
 #     "password": "vincent123"
 # }
+
+# GET http://127.0.0.1:8000/notebook/get/
+# Content-Type: application/json
+# Authorization: Bearer <token>
