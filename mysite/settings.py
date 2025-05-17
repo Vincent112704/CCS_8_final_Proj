@@ -48,8 +48,11 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'mysite.urls'
 
-CORS_ALLOW_ALL_ORIGINS = True
-
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    # Add production frontend URL if applicable, e.g., 'https://your-app.com'
+]
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
