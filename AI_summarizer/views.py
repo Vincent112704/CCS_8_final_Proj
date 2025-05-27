@@ -4,13 +4,15 @@ from .models import ChatHistory
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+from django.shortcuts import render
 
 summarizer = Chatbot()
-# def posttempl(request):
-#     return render(request, "AI_summarizer/index.html")
-# def posttempl2(request):
-#     return render(request, "AI_summarizer/ai.html")
+def posttempl(request):
+    return render(request, "AI_summarizer/index.html")
+def posttempl2(request):
+    return render(request, "AI_summarizer/ai.html")
 
+@csrf_exempt
 def postPDF (request): 
 
     try: 
